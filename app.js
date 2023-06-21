@@ -10,3 +10,5 @@ window.addEventListener('keyup', (event) => {
   //   const pokedex = new Pokedex('lugia', section);
   //   pokedex.initPokemon();
 });
+
+window.localStorage;
