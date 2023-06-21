@@ -1,14 +1,5 @@
 import Pokedex from './modules/PokeDex.js';
 
-const input = document.querySelector('.inpt-poke');
-const section = document.querySelector('.poke-section');
+const poke = new Pokedex('.content');
 
-window.addEventListener('keyup', (event) => {
-  console.log(event.key);
-  section.innerHTML = '';
-
-  //   const pokedex = new Pokedex('lugia', section);
-  //   pokedex.initPokemon();
-});
-
-window.localStorage;
+poke.fetchPokemons(151);
