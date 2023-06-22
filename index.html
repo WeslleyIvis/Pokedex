@@ -4,23 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="stylesheet" href="style.css">
     <title>Pokedex</title>
 </head>
 
 <body>
-
     <main>
-        <section class="content">
+        <header class="content">
             <div class="cont-inpt">
-                <input type="text" class="inpt-poke" placeholder="Pokemon or Number Pokedex">
-                <button>a</button>
+                <nav class="nav">
+                    <ul>
+                        <li class="logo"><img src="https://logodownload.org/wp-content/uploads/2017/08/pokemon-logo-8.png" alt=""></li>
+                        <li>
+                            <span>Lorem</span>
+                            <span>Lorem</span>
+                            <span>Lorem</span>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="cont-descrition">
+                    <span class="descrition">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste deleniti recusandae, consequatur est nisi laboriosam cupiditate.</span>
+                    <div class="box-inpt">
+                        <input type="text" class="inpt-poke" placeholder="Pokemon or Number Pokedex">
+                        <button>.</button>
+                    </div>
+                </div>
             </div>
-
-            <div class="poke-section">
-
-            </div>
-        </section>
+            <section class="pokedex-options">
+                <h2>Pokedex Kanto geration</h2>
+                <select name="geration" id="select-geration">
+                    <option value="kanto">Kanto</option>
+                    <option value="Jhoto">Jhoto</option>
+                    <option value="Hoen">Hoen</option>
+                </select>
+            </section>
+        </header>
     </main>
 
     <script type="module" src="app.js"></script>

@@ -2,20 +2,148 @@
     padding: 0;
     margin: 0;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+:root {
+    --pokedex-width: 1200px;
+    --color-cinza: #4a4a4a;
 }
 
 .content {
-    max-width: 1200px;
-
     margin: 0 auto;
+    padding-bottom: 1em;
+}
+
+.cont-inpt {
+    position: relative;
+    height: 500px;
+    z-index: 2;
+    background-color: black;
+}
+
+.nav {
+    color: white;
+    padding: 2em;
+}
+
+.nav ul {
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo {
+    width: 100px;
+}
+
+.logo img {
+    max-width: 100%;
+}
+
+.cont-descrition {
+    padding: 3em 1em;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.descrition {
+    font-size: clamp(1.5em, 2.5vw, 2em);
+    color: white;
+}
+
+.box-inpt {
+    margin-top: 2em;
+    position: relative;
+}
+
+.box-inpt input {
+    width: 80%;
     padding: 1em;
+    font-size: medium;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+.box-inpt button {
+    border-radius: 0 10px 10px 0;
+    position: absolute;
+    top: 0;
+    width: 4em;
+    cursor: pointer;
+    padding: 1.35em;
+    border: none;
+    color: transparent;
+    background-color: rgb(29, 29, 21);
+    left: 83%;
+}
+
+.box-inpt button::after {
+    position: absolute;
+    content: ' ';
+    top: 30%;
+    left: 30%;
+    height: .9em;
+    width: .9em;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.63);
+}
+
+.box-inpt button::before {
+    position: absolute;
+    top: 55%;
+    left: 59%;
+    transform: rotate(312deg);
+    content: '';
+    height: 8px;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.63);
+}
+
+.cont-inpt::before {
+    content: ' ';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url('https://images8.alphacoders.com/130/1303566.png');
+    background-size: cover;
+    background-position: 50%;
+    z-index: -1;
+    opacity: .4;
+}
+
+.pokedex-options {
+    max-width: var(--pokedex-width);
+    padding: 2em;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--color-cinza);
+    justify-content: space-between;
+}
+
+.pokedex-options  h2 {
+    font-weight: 500;
+}
+
+#select-geration {
+    border: 1px solid rgba(29, 29, 29, 0.322);
+    font-size: 1.5em;
+    width: 5em;
+    padding: 3px;
+    color: var(--color-cinza);
 }
 
 .pokedex-content {
+    max-width: var(--pokedex-width);
+    padding: 1em;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: .5em;
 }
+
 
 .pokedex-card {
     position: relative;
