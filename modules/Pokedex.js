@@ -20,12 +20,22 @@ export default class Pokedex {
 
     console.log(this.dataPokedex);
     this.container.appendChild(this.createPokedex(this.dataPokedex));
+    return this.dataPokedex;
   }
 
   async fetchPokemonsStatus(url) {
     const r = await fetch(url);
     const data = await r.json();
     return data;
+  }
+
+  async fetchPokemonName(name) {
+    const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+      .then((pokemon) => pokemon.json())
+      .catch((err) => console.log(err));
+
+    console.log(pokemon);
+    return pokemon;
   }
 
   createPokedex(data) {
@@ -41,6 +51,7 @@ export default class Pokedex {
         null,
         `pokedex-card`,
       );
+      // \/ Pinta o background dos cards com a cor do elemento do pokemon
       //cardPokemon.classList.add(`${element.types[0].type.name}`);
       cardPokemon.appendChild(
         this.generator.createNode(
@@ -74,7 +85,37 @@ export default class Pokedex {
       cardPokemon.appendChild(boxTYPES);
       content.appendChild(cardPokemon);
     });
-    console.log(content);
     return content;
+  }
+
+  createPokemon(element) {
+    const cardPokemon = this.generator.createNode('div', null, `pokedex-card`);
+
+    cardPokemon.appendChild(
+      this.generator.createNode(
+        'h1',
+        element.name.charAt(0).toUpperCase() + element.name.slice(1),
+        'poke-name',
+      ),
+    );
+    cardPokemon.appendChild(
+      this.generator.createNode('span', element.id, 'poke-id'),
+    );
+    const boxIMG = this.generator.createNode('div', null, 'poke-box-img');
+    boxIMG.appendChild(
+      this.generator.createNode('img', null, 'poke-img', {
+        attribute: 'src',
+        value: element.sprites.other['official-artwork'].front_default,
+      }),
+    );
+    const boxTYPES = this.generator.createNode('div', null, 'poke-types');
+    element.types.forEach((element) => {
+      boxTYPES.appendChild(
+        this.generator.createNode('span', element.type.name, element.type.name),
+      );
+    });
+    cardPokemon.appendChild(boxIMG);
+    cardPokemon.appendChild(boxTYPES);
+    return cardPokemon;
   }
 }
