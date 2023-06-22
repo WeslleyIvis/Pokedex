@@ -1,5 +1,39 @@
 import Pokedex from './modules/PokeDex.js';
 
-const poke = new Pokedex('.content');
+const pokeAPI = new Pokedex('.content');
+let data = null;
+let currentPokemon = null;
 
-poke.fetchPokemons(151);
+//if (!data) data = pokeAPI.fetchPokemons(9);
+
+const pokemon = async (name) => {
+  document.querySelector('.span-notfound').innerText = 'Await...';
+  const poke = await pokeAPI.fetchPokemonName(name);
+  if (poke) {
+    document.querySelector('.span-notfound').innerText = '';
+    const componentPokemon = pokeAPI.createPokemon(poke);
+
+    document.querySelector('main').appendChild(componentPokemon);
+
+    return componentPokemon;
+  } else {
+    document.querySelector('.span-notfound').innerText =
+      'Name or ID pokedex not found';
+    return null;
+  }
+};
+
+const events = (inputTxt, button) => {
+  let searchNamePokemon = '';
+
+  document.querySelector(inputTxt).addEventListener('keyup', (event) => {
+    searchNamePokemon = event.target.value;
+    if (event.key === 'Enter') currentPokemon = pokemon(searchNamePokemon);
+  });
+
+  document.querySelector(button).addEventListener('click', () => {
+    if (searchNamePokemon) currentPokemon = pokemon(searchNamePokemon);
+  });
+};
+
+events('.inpt-poke', '.box-inpt button');
