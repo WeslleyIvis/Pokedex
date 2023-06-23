@@ -13,14 +13,19 @@ export default class Pokedex {
       `https://pokeapi.co/api/v2/pokemon?limit=${limitPokedex}`,
     ).then((r) => r.json());
     const dataPokemon = data.results;
+    const loading = this.generator.createNode('div', 'loader');
+    this.container.appendChild(loading);
 
     for (const pokemon of dataPokemon) {
       const pokemonDetails = await this.fetchPokemonsStatus(pokemon.url);
       this.dataPokedex.push(pokemonDetails);
     }
 
-    console.log(this.dataPokedex);
     this.container.appendChild(this.createPokedex(this.dataPokedex));
+    this.container.removeChild(document.querySelector('.loader'));
+
+    console.log(this.dataPokedex);
+
     return this.dataPokedex;
   }
 
@@ -50,8 +55,8 @@ export default class Pokedex {
         this.generator.createNode(
           'h1',
           // deixa a primeira letra em Maiusculo
-          element.name.charAt(0).toUpperCase() + element.name.slice(1),
           'poke-name',
+          element.name.charAt(0).toUpperCase() + element.name.slice(1),
         ),
       );
       cardPokemon.appendChild(
@@ -145,7 +150,7 @@ export default class Pokedex {
       this.generator.createNode('span', 'weight', `${element.weight / 10} KG`),
     );
     pokeSize.appendChild(
-      this.generator.createNode('span', 'height', `${element.height} M`),
+      this.generator.createNode('span', 'height', `${element.height / 10} M`),
     );
 
     contentStatus.appendChild(pokeSize);
