@@ -4,7 +4,7 @@ const pokeAPI = new Pokedex('.content');
 let data = null;
 let currentPokemon = null;
 
-if (!data) data = pokeAPI.fetchPokemons(9);
+if (!data) data = pokeAPI.fetchPokemons(20);
 
 const pokemon = async (name) => {
   document.querySelector('.span-notfound').innerText = 'Await...';
@@ -14,6 +14,9 @@ const pokemon = async (name) => {
     const componentPokemon = pokeAPI.createPokemon(poke);
 
     document.querySelector('main').appendChild(componentPokemon);
+
+    const pokedex = document.querySelector('.pokedex-content');
+    if (pokedex) pokeAPI.generator.disableNode(pokedex);
 
     return componentPokemon;
   } else {
