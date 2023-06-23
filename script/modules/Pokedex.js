@@ -100,6 +100,16 @@ export default class Pokedex {
       ),
     );
 
+    const buttonShiny = this.generator.createNode('button', 'button-shiny');
+    buttonShiny.appendChild(
+      this.generator.createNode('img', '', undefined, {
+        attribute: 'src',
+        value: '../../icon-shiny.svg',
+      }),
+    );
+
+    contentImage.appendChild(buttonShiny);
+
     const image = this.generator.createNode('div', 'modal-cont-img');
     image.appendChild(
       this.generator.createNode('img', 'modal-poke-img', null, {
