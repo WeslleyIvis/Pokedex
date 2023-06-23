@@ -4,6 +4,10 @@ export default class Modal {
       document
         .querySelector('.modal')
         .parentNode.removeChild(document.querySelector('.modal'));
+
+      if (document.querySelector('.pokedex-content')) {
+        document.querySelector('.pokedex-content').classList.toggle('disable');
+      }
     });
   }
 }
