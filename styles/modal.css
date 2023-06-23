@@ -37,10 +37,24 @@
     color: white;
 }
 
+.button-shiny {
+    background-color: transparent;
+    border: none;
+    max-width: 40px;
+    position: absolute;
+    top: 7%;
+    left: 81%;
+}
+
+.button-shiny img {
+    width: 100%;
+    fill: yellow;
+}
+
 .modal-cont-img {
     margin: 0 auto;
     padding: 3em 1em 0 1em;
-    max-width: 300px;
+    max-width: 250px;
 }
 
 .modal-cont-img img {
