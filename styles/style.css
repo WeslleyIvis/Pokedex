@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+@import 'navbar.css';
+@import 'search.css';
+@import 'header.css';
+@import 'pokedexContent.css';
+@import 'modal.css';
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif !important;
+    text-decoration: none;
+    list-style: none;
+}
+
+:root {
+    --pokedex-width: 1200px;
+    --color-cinza: #4a4a4a;
+}
+
+/* BACKGROUND Types - COLOR  */
+
+.fire {
+    background-color: rgba(255, 113, 17);
+}
+
+.water {
+    background-color: rgba(113, 126, 254);
+}
+
+.grass {
+    background-color: rgba(58, 203, 1);
+}
+
+.bug {
+    background-color: rgba(156, 195, 33);
+}
+
+.poison {
+    background-color: rgba(175, 1 ,204);
+}
+
+.normal {
+    background-color: rgba(172, 171, 141);
+}
+
+.flying {
+    background-color: rgba(168 ,144, 254);
+}
+
+.psychic {
+    background-color: rgba(255, 80 ,155);
+}
+
+.fighting {
+    background-color: rgba(200, 0 ,0);
+}
+
+.electric {
+    background-color: rgba(254, 213, 37);
+}
+
+.ground {
+    background-color: rgb(229 188 98);
+}
+
+.fairy {
+    background-color: rgb(248 165 209);
+}
+
+.ice {
+    background-color: rgb(136 219 237);
+}
+
+.rock {
+    background-color: rgb(196 145 0);
+}
+
+.dragon {
+    background-color: rgb(102 35 239);
+}
+
+.ghost {
+    background-color: rgb(102 58 147);
+}
+
+
+/* Color STATUS */
+
+.hp {
+    background-color: rgba(213, 57, 71, 1);
+}
+
+.attack {
+    background-color: rgba(253, 167, 38, 1);
+}
+
+.defense {
+    background-color: rgba(3, 144, 236, 1);
+}
+
+.special-attack {
+    background-color: rgba(145, 175, 197, 1);
+}
+
+.special-defense {
+    background-color: rgba(56, 141, 59, 1);
+}
+
+.speed {
+    background-color: rgb(28, 112, 145);
+}
