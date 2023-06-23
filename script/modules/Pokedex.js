@@ -36,7 +36,9 @@ export default class Pokedex {
   }
 
   async fetchPokemonName(name) {
-    const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    const pokemon = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`,
+    )
       .then((pokemon) => pokemon.json())
       .catch((err) => console.log(err));
 
