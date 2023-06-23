@@ -14,4 +14,8 @@ export default class CreateComponents {
 
     return node;
   }
+
+  disableNode(node) {
+    node.classList.toggle('disable');
+  }
 }
