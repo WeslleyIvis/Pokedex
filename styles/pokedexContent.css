@@ -1,3 +1,25 @@
+.pokedex-options {
+    max-width: var(--pokedex-width);
+    padding: 2em;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--color-cinza);
+    justify-content: space-between;
+}
+
+.pokedex-options  h2 {
+    font-weight: 500;
+}
+
+#select-geration {
+    border: 1px solid rgba(29, 29, 29, 0.322);
+    font-size: 1.5em;
+    width: 5em;
+    padding: 3px;
+    color: var(--color-cinza);
+}
+
 .pokedex-content {
     max-width: var(--pokedex-width);
     padding: 1em;
@@ -44,4 +66,10 @@
     color: white;
     padding: 4px 5px;
     border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .pokedex-options {
+        display: none;
+    }
 }

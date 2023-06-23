@@ -6,11 +6,11 @@
     background-color: rgb(255, 255, 255);
     width: 100%;
     z-index: 3;
-    color: black;
+    animation: animaOpacity .5s ease-in-out;
 }
 
 .modal-poke-image {
-    background-image: linear-gradient(to top, transparent 0%,  rgba(18, 131, 196, 0.795) 100%);
+    background-image: linear-gradient(to top, transparent 0%,  rgba(0, 0, 0, 0.795) 100%);
     border-radius: 0 0 2em 2em;
 }
 
@@ -74,7 +74,7 @@
     margin-bottom: 2em;
     border-radius: 40px;
     font-weight: 600;
-    color: wheat;
+    color: rgb(255, 255, 255);
 }
 
 .size-pokemon {

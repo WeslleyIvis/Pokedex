@@ -19,6 +19,11 @@
     --color-cinza: #4a4a4a;
 }
 
+@keyframes animaOpacity {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
 /* BACKGROUND Types - COLOR  */
 
 .fire {
@@ -110,4 +115,12 @@
 
 .speed {
     background-color: rgb(28, 112, 145);
+}
+
+.steel {
+    background-color: rgb(90 142 162);
+}
+
+.dark {
+    background-color: rgb(90 84 101);
 }
