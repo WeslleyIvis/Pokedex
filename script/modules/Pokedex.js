@@ -1,8 +1,9 @@
 import CreateComponents from './CreateComponents.js';
-
+import Modal from './Modal.js';
 export default class Pokedex {
   constructor(section) {
     this.generator = new CreateComponents();
+    this.modal = new Modal();
     this.container = document.querySelector(section);
     this.dataPokedex = [];
   }
@@ -54,11 +55,11 @@ export default class Pokedex {
         ),
       );
       cardPokemon.appendChild(
-        this.generator.createNode('span', element.id, 'poke-id'),
+        this.generator.createNode('span', 'poke-id', element.id),
       );
       const boxIMG = this.generator.createNode('div', 'poke-box-img');
       boxIMG.appendChild(
-        this.generator.createNode('img', 'poke-img', {
+        this.generator.createNode('img', 'poke-img', null, {
           attribute: 'src',
           value: element.sprites.other['official-artwork'].front_default,
         }),
@@ -86,9 +87,11 @@ export default class Pokedex {
     const contentImage = this.generator.createNode('div', 'modal-poke-image');
     const contentStatus = this.generator.createNode('div', 'modal-poke-status');
 
-    contentImage.appendChild(
-      this.generator.createNode('button', 'modal-arrow', '←'),
-    );
+    const arrow = this.generator.createNode('button', 'modal-arrow', '←');
+    this.modal.closeModal(arrow);
+
+    contentImage.appendChild(arrow);
+
     contentImage.appendChild(
       this.generator.createNode(
         'div',
@@ -146,10 +149,6 @@ export default class Pokedex {
 
     let sizeWindow = window.innerWidth;
 
-    if (sizeWindow <= 375) sizeWindow = 8;
-    else if (sizeWindow <= 500) sizeWindow = 6.5;
-    else sizeWindow = 0;
-
     element.stats.forEach((status) => {
       boxStatus.appendChild(
         this.generator.createNode('span', null, status.stat.name),
@@ -161,8 +160,10 @@ export default class Pokedex {
         `${status.base_stat} / 200`,
       );
 
-      statusAmount.style.width =
-        (status.base_stat * 100) / 200 + sizeWindow + '%';
+      let valueStatus = (status.base_stat * 100) / 200;
+      if (valueStatus <= 40) valueStatus += 8;
+
+      statusAmount.style.width = valueStatus + '%';
       statusBar.appendChild(statusAmount);
       boxStatus.appendChild(statusBar);
     });
