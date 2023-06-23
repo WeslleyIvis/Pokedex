@@ -4,7 +4,7 @@ const pokeAPI = new Pokedex('.content');
 let data = null;
 let currentPokemon = null;
 
-//if (!data) data = pokeAPI.fetchPokemons(9);
+if (!data) data = pokeAPI.fetchPokemons(9);
 
 const pokemon = async (name) => {
   document.querySelector('.span-notfound').innerText = 'Await...';
