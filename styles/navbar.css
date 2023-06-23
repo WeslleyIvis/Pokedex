@@ -1,0 +1,17 @@
+.nav {
+    color: white;
+    padding: 2em;
+}
+
+.nav ul {
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo {
+    width: 100px;
+}
+
+.logo img {
+    max-width: 100%;
+}
