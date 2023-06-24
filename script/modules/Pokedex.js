@@ -6,6 +6,80 @@ export default class Pokedex {
     this.modal = new Modal();
     this.container = document.querySelector(section);
     this.dataPokedex = [];
+    this.typeColors = [
+      {
+        type: 'fire',
+        color: 'rgba(255, 113, 17)',
+      },
+      {
+        type: 'water',
+        color: 'rgba(113, 126, 254)',
+      },
+      {
+        type: 'grass',
+        color: 'rgba(58, 203, 1)',
+      },
+      {
+        type: 'bug',
+        color: 'rgba(156, 195, 33)',
+      },
+      {
+        type: 'poison',
+        color: 'rgba(175, 1 ,204)',
+      },
+      {
+        type: 'normal',
+        color: 'rgba(172, 171, 141)',
+      },
+      {
+        type: 'flying',
+        color: 'rgba(168 ,144, 254)',
+      },
+      {
+        type: 'psychic',
+        color: 'rgba(255, 80 ,155)',
+      },
+      {
+        type: 'fighting',
+        color: 'rgba(120, 0 ,0)',
+      },
+      {
+        type: 'electric',
+        color: 'rgba(254, 213, 37)',
+      },
+      {
+        type: 'ground',
+        color: 'rgb(229 188 98)',
+      },
+      {
+        type: 'fairy',
+        color: 'rgb(248 165 209)',
+      },
+      {
+        type: 'ice',
+        color: 'rgb(136 150 237)',
+      },
+      {
+        type: 'rock',
+        color: 'rgb(196 145 0)',
+      },
+      {
+        type: 'dragon',
+        color: 'rgb(102 35 239)',
+      },
+      {
+        type: 'ghost',
+        color: 'rgb(102 58 147)',
+      },
+      {
+        type: 'steel',
+        color: 'rgb(90 142 162)',
+      },
+      {
+        type: 'dark',
+        color: 'rgb(90 84 101)',
+      },
+    ];
   }
 
   async fetchPokemons(limitPokedex) {
@@ -94,11 +168,17 @@ export default class Pokedex {
     const contentImage = this.generator.createNode('div', 'modal-poke-image');
     const contentStatus = this.generator.createNode('div', 'modal-poke-status');
 
-    const arrow = this.generator.createNode('button', 'modal-arrow', '←');
+    // Get element color
+    const pokeColor = this.getColorElementColor(element.types[0].type.name);
+    contentImage.style.backgroundImage = `linear-gradient(to top, transparent 0%, ${pokeColor} 100%)`;
+
+    // Arrow button
+    const arrow = this.generator.createButton('←', 'modal-arrow');
     this.modal.closeModal(arrow);
 
     contentImage.appendChild(arrow);
 
+    // Id pokedex
     contentImage.appendChild(
       this.generator.createNode(
         'div',
@@ -107,16 +187,7 @@ export default class Pokedex {
       ),
     );
 
-    const buttonShiny = this.generator.createNode('button', 'button-shiny');
-    buttonShiny.appendChild(
-      this.generator.createNode('img', '', undefined, {
-        attribute: 'src',
-        value: '../../icon-shiny.svg',
-      }),
-    );
-
-    contentImage.appendChild(buttonShiny);
-
+    // Content image
     const image = this.generator.createNode('div', 'modal-cont-img');
     image.appendChild(
       this.generator.createNode('img', 'modal-poke-img', null, {
@@ -124,8 +195,22 @@ export default class Pokedex {
         value: element.sprites.other['official-artwork'].front_default,
       }),
     );
+
     contentImage.appendChild(image);
 
+    // Button get shiny pokemon
+    const buttonShiny = this.generator.createButton(null, 'button-shiny');
+    buttonShiny.appendChild(
+      this.generator.createNode('img', '', undefined, {
+        attribute: 'src',
+        value: '../../icon-shiny.png',
+      }),
+    );
+
+    this.toggleImageShiny(buttonShiny, image.firstChild, element);
+    contentImage.appendChild(buttonShiny);
+
+    // H1 name pokemon
     contentStatus.appendChild(
       this.generator.createNode(
         'h1',
@@ -133,6 +218,8 @@ export default class Pokedex {
         element.name.charAt(0).toUpperCase() + element.name.slice(1),
       ),
     );
+
+    // Content Type elements pokemon
     const types = this.generator.createNode('div', 'modal-types');
     element.types.forEach((element) => {
       types.appendChild(
@@ -147,6 +234,7 @@ export default class Pokedex {
 
     contentStatus.appendChild(types);
 
+    // Weight & Height
     const pokeSize = this.generator.createNode('div', 'size-pokemon');
     pokeSize.appendChild(
       this.generator.createNode('span', 'weight', `${element.weight / 10} KG`),
@@ -157,14 +245,13 @@ export default class Pokedex {
 
     contentStatus.appendChild(pokeSize);
 
+    // Status bar
     const baseStatus = this.generator.createNode('div', 'modal-base-status');
     baseStatus.appendChild(
       this.generator.createNode('h2', null, 'Base Status'),
     );
 
     const boxStatus = this.generator.createNode('div', 'box-status');
-
-    let sizeWindow = window.innerWidth;
 
     element.stats.forEach((status) => {
       boxStatus.appendChild(
@@ -191,8 +278,29 @@ export default class Pokedex {
     componentModal.appendChild(contentStatus);
     modal.appendChild(componentModal);
 
-    console.log(modal);
-
     return modal;
+  }
+
+  getColorElementColor(element) {
+    let pokeColor = '';
+    this.typeColors.forEach(({ type, color }) => {
+      if (element === type) pokeColor = color;
+    });
+
+    return pokeColor;
+  }
+
+  toggleImageShiny(nodeEvent, nodeMod, { sprites }) {
+    nodeEvent.addEventListener('click', () => {
+      if (nodeMod.src === sprites.other['official-artwork'].front_default) {
+        nodeMod.src = sprites.other['official-artwork'].front_shiny;
+      } else if (
+        nodeMod.src === sprites.other['official-artwork'].front_shiny
+      ) {
+        nodeMod.src = sprites.other['official-artwork'].front_default;
+      }
+
+      nodeEvent.classList.toggle('bg-color-yellow');
+    });
   }
 }
