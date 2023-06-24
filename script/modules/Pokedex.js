@@ -203,7 +203,7 @@ export default class Pokedex {
     buttonShiny.appendChild(
       this.generator.createNode('img', '', undefined, {
         attribute: 'src',
-        value: '../../icon-shiny.png',
+        value: 'https://static.thenounproject.com/png/3386874-200.png',
       }),
     );
 
