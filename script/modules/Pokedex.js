@@ -261,10 +261,10 @@ export default class Pokedex {
       const statusAmount = this.generator.createNode(
         'div',
         status.stat.name,
-        `${status.base_stat} / 200`,
+        `${status.base_stat} / 300`,
       );
 
-      let valueStatus = (status.base_stat * 100) / 200;
+      let valueStatus = (status.base_stat * 100) / 300;
       if (valueStatus <= 40) valueStatus += 8;
 
       statusAmount.style.width = valueStatus + '%';
