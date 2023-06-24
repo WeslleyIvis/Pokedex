@@ -16,7 +16,7 @@ const pokemon = async (name) => {
     document.querySelector('main').appendChild(componentPokemon);
 
     const pokedex = document.querySelector('.pokedex-content');
-    if (pokedex) pokeAPI.generator.disableNode(pokedex);
+    if (pokedex) pokeAPI.generator.toggleClass(pokedex);
 
     return componentPokemon;
   } else {
