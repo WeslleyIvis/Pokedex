@@ -15,7 +15,23 @@ export default class CreateComponents {
     return node;
   }
 
-  disableNode(node) {
+  createButton(
+    value = null,
+    className = null,
+    attribute = { type: null, value: null },
+  ) {
+    const node = document.createElement('button');
+    node.type = 'button';
+    value ? (node.innerText = value) : null;
+    className ? node.classList.add(className) : null;
+    attribute.type && attribute.value
+      ? node.setAttribute(attribute.type, attribute.value)
+      : null;
+
+    return node;
+  }
+
+  toggleClass(node) {
     node.classList.toggle('disable');
   }
 }
