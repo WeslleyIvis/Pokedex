@@ -33,6 +33,12 @@
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.158);
     padding: 10px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.pokedex-card:hover {
+    background-color: rgb(223, 221, 221);
 }
 
 .poke-id {
