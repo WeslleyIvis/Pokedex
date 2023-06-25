@@ -2,11 +2,11 @@ export default class CreateComponents {
   createNode(
     nodeType,
     className = null,
-    value = null,
+    text = null,
     src = { attribute: null, value: null },
   ) {
     const node = document.createElement(nodeType);
-    value ? (node.innerText = value) : null;
+    text ? (node.innerText = text) : null;
     className ? node.classList.add(className) : null;
     src.attribute && src.value
       ? node.setAttribute(src.attribute, src.value)
@@ -29,6 +29,20 @@ export default class CreateComponents {
       : null;
 
     return node;
+  }
+
+  createSelectOpotions(selectId = null, data = []) {
+    let select = selectId;
+
+    !selectId ? (select = this.createNode('select', 'select-geration')) : null;
+    data.forEach((element) => {
+      const option = this.createNode('option', null, element.geration, {
+        attribute: 'value',
+        value: element.geration,
+      });
+      select.appendChild(option);
+    });
+    return select;
   }
 
   toggleClass(node) {
