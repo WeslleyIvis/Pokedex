@@ -37,6 +37,7 @@
     font-size: 1.5em;
     font-weight: bold;
     color: white;
+    transition: .5s;
 }
 
 .modal-arrow:hover {
