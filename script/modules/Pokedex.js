@@ -1,12 +1,15 @@
 import CreateComponents from './CreateComponents.js';
 import Modal from './Modal.js';
 export default class Pokedex {
-  constructor(main) {
+  constructor(main, nodoPokedex = { className: '' }) {
     this.creatorNode = new CreateComponents();
     this.modal = new Modal();
     this.container = document.querySelector(main);
+    this.sectionPokedex = this.creatorNode.createNode(
+      'section',
+      nodoPokedex.className,
+    );
     this.dataPokedex = [];
-    this.contentPokedex = null;
     this.typeColors = [
       {
         type: 'fire',
@@ -139,34 +142,34 @@ export default class Pokedex {
         },
       },
     ];
+    this.gerationStart = 0;
+    this.gerationCount = this.setCountGeration();
   }
 
-  async fetchPokeGeration(start, quantity) {
-    const pokemon = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?offset=${start}&limit=${quantity}`,
+  async fetchPokeGeration(start, end) {
+    this.dataPokedex = [];
+
+    const loading = this.creatorNode.createNode('div', 'loader');
+    this.container.appendChild(loading);
+
+    const data = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?offset=${this.gerationStart}&limit=${this.gerationCount}`,
     )
       .then((data) => data.json())
       .catch((err) => console.error(err));
 
-    console.log(pokemon);
-    return pokemon;
-  }
+    const results = data.results;
+    this.gerationStart += this.gerationCount;
 
-  async fetchPokemons(limitPokedex) {
-    const data = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?limit=${limitPokedex}`,
-    ).then((r) => r.json());
-    const dataPokemon = data.results;
-    const loading = this.creatorNode.createNode('div', 'loader');
-    this.container.appendChild(loading);
-
-    for (const pokemon of dataPokemon) {
+    for (const pokemon of results) {
       const pokemonDetails = await this.fetchPokemonsStatus(pokemon.url);
       this.dataPokedex.push(pokemonDetails);
     }
 
-    this.container.appendChild(this.createPokedex(this.dataPokedex));
     this.container.removeChild(document.querySelector('.loader'));
+    this.container.appendChild(
+      this.createPokedex(this.dataPokedex, this.sectionPokedex),
+    );
 
     return this.dataPokedex;
   }
@@ -188,8 +191,21 @@ export default class Pokedex {
     return pokemon;
   }
 
-  createPokedex(data) {
-    const content = this.creatorNode.createNode('section', `pokedex-content`);
+  setCountGeration(value = null) {
+    if (value) return value;
+    else {
+      //PC version loading pokemons
+      if (window.innerWidth > 1070) value = 8;
+      //Mobile version loading pokemons
+      else if (window.innerWidth <= 425) value = 3;
+      //Tablet / Ipad version loading pokemons
+      else value = 6;
+      return value;
+    }
+  }
+
+  createPokedex(data, contentNode) {
+    const content = contentNode;
 
     data.forEach((element, i) => {
       const cardPokemon = this.creatorNode.createNode('div', `pokedex-card`);
@@ -226,11 +242,12 @@ export default class Pokedex {
       cardPokemon.appendChild(boxIMG);
       cardPokemon.appendChild(boxTYPES);
 
-      this.selectPokemon(cardPokemon, cardPokemon.childNodes[1].innerText);
+      this.selectPokemon(cardPokemon, element);
 
       content.appendChild(cardPokemon);
     });
-    return (this.contentPokedex = content);
+    console.dir(content);
+    return content;
   }
 
   createPokemon(element) {
@@ -359,14 +376,14 @@ export default class Pokedex {
     return modal;
   }
 
-  selectPokemon(node, id) {
-    node.addEventListener('click', () =>
-      this.createSelectedPokemon(id, this.contentPokedex),
-    );
+  selectPokemon(node, dataPokemon) {
+    node.addEventListener('click', (event) => {
+      console.dir(node);
+      this.createSelectedPokemon(dataPokemon, this.sectionPokedex);
+    });
   }
 
-  async createSelectedPokemon(id, nodeDisable = null) {
-    const pokemon = await this.fetchPokemonName(id);
+  async createSelectedPokemon(pokemon, nodeDisable = null) {
     const organism = this.createPokemon(pokemon);
 
     this.container.appendChild(organism);
@@ -394,6 +411,13 @@ export default class Pokedex {
       }
 
       nodeEvent.classList.toggle('bg-color-yellow');
+    });
+  }
+
+  selectGeration(node) {
+    node.addEventListener('change', () => {
+      console.dir(node);
+      console.log(node.value);
     });
   }
 }
