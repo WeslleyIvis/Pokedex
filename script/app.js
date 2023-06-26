@@ -1,19 +1,21 @@
 import Pokedex from './modules/Pokedex.js';
 
-const pokeAPI = new Pokedex('.content');
+const pokeAPI = new Pokedex('.content', { className: 'pokedex-content' });
 let data = null;
 let currentPokemon = null;
 
-if (!data) data = pokeAPI.fetchPokemons(33);
+//if (!data) data = pokeAPI.fetchPokemons(8);
+await pokeAPI.fetchPokeGeration(pokeAPI.gerationStart, 0, 1);
 
-document
-  .querySelector('.pokedex-options')
-  .appendChild(
-    pokeAPI.creatorNode.createSelectOpotions(null, pokeAPI.generations),
-  );
+// Create select & event
+const select = pokeAPI.creatorNode.createSelectOpotions(
+  null,
+  pokeAPI.generations,
+);
+document.querySelector('.pokedex-options').appendChild(select);
+pokeAPI.selectGeration(select);
 
-console.log(await pokeAPI.fetchPokeGeration(2, 3));
-
+// Search Pokemon & write pokemon
 const pokemon = async (name) => {
   document.querySelector('.span-notfound').innerText = 'Await...';
   const poke = await pokeAPI.fetchPokemonName(name);
@@ -34,6 +36,7 @@ const pokemon = async (name) => {
   }
 };
 
+// Search Events
 const events = (inputTxt, button) => {
   let searchNamePokemon = '';
 
@@ -48,3 +51,9 @@ const events = (inputTxt, button) => {
 };
 
 events('.search-poke', '.box-search button');
+
+window.addEventListener('scroll', (event) => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  console.log(scrollTop, scrollHeight, clientHeight);
+});
