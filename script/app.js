@@ -21,6 +21,7 @@ const pokemon = async (name) => {
   document.querySelector('.span-notfound').innerText = 'Await...';
   const poke = await pokeAPI.fetchPokemonName(name);
   if (poke) {
+    document.documentElement.scrollTop = 0;
     document.querySelector('.span-notfound').innerText = '';
     const componentPokemon = pokeAPI.createPokemon(poke);
 
