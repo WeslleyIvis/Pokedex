@@ -5,14 +5,15 @@ let data = null;
 let currentPokemon = null;
 
 //if (!data) data = pokeAPI.fetchPokemons(8);
-await pokeAPI.fetchPokeGeration(pokeAPI.gerationStart, 0, 1);
+await pokeAPI.fetchPokeGeration();
 
 // Create select & event
 const select = pokeAPI.creatorNode.createSelectOpotions(
   null,
-  pokeAPI.generations,
+  pokeAPI.gerations,
 );
 document.querySelector('.pokedex-options').appendChild(select);
+
 pokeAPI.selectGeration(select);
 
 // Search Pokemon & write pokemon
@@ -50,10 +51,23 @@ const events = (inputTxt, button) => {
   });
 };
 
+let cancelScroll = true;
+
+const handleScroll = async () => {
+  if (cancelScroll && document.querySelector('.pokedex-content').firstChild) {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    cancelScroll = false;
+
+    if (scrollTop + clientHeight > scrollHeight - 300) {
+      await pokeAPI.fetchPokeGeration();
+    }
+
+    setTimeout(() => {
+      cancelScroll = true;
+    }, 300);
+  }
+};
+
+window.addEventListener('scroll', handleScroll);
+
 events('.search-poke', '.box-search button');
-
-window.addEventListener('scroll', (event) => {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-
-  console.log(scrollTop, scrollHeight, clientHeight);
-});
