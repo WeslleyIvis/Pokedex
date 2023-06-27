@@ -65,7 +65,7 @@ const handleScroll = async () => {
 
     setTimeout(() => {
       cancelScroll = true;
-    }, 300);
+    }, 50);
   }
 };
 
