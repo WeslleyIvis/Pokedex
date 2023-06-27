@@ -35,10 +35,14 @@ export default class CreateComponents {
     let select = selectId;
 
     !selectId ? (select = this.createNode('select', 'select-geration')) : null;
+
+    select.title = 'select-geration';
+    select.id = 'select-g';
+
     data.forEach((element) => {
-      const option = this.createNode('option', null, element.geration, {
+      const option = this.createNode('option', null, element.name, {
         attribute: 'value',
-        value: element.geration,
+        value: element.name,
       });
       select.appendChild(option);
     });
