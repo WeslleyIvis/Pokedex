@@ -1,5 +1,5 @@
 export default class Modal {
-  closeModal(node) {
+  closeModal(node, scrollTop) {
     const closeEvent = node.addEventListener('click', (event) => {
       document
         .querySelector('.modal')
@@ -8,6 +8,8 @@ export default class Modal {
       if (document.querySelector('.pokedex-content')) {
         document.querySelector('.pokedex-content').classList.toggle('disable');
       }
+
+      document.documentElement.scrollTop = scrollTop;
     });
   }
 }
