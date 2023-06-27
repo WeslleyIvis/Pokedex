@@ -1,13 +1,13 @@
 import CreateComponents from './CreateComponents.js';
 import Modal from './Modal.js';
 export default class Pokedex {
-  constructor(main, nodoPokedex = { className: '' }) {
+  constructor(main, nodePokedex = { className: '' }) {
     this.creatorNode = new CreateComponents();
     this.modal = new Modal();
     this.container = document.querySelector(main);
     this.sectionPokedex = this.creatorNode.createNode(
       'section',
-      nodoPokedex.className,
+      nodePokedex.className,
     );
     this.dataPokedex = [];
     this.typeColors = [
@@ -84,94 +84,104 @@ export default class Pokedex {
         color: 'rgb(90 84 101)',
       },
     ];
-    this.generations = [
+    this.gerations = [
       {
-        geration: 'kanto',
+        name: 'kanto',
         quantityPokedex: {
-          start: 1,
+          start: 0,
           end: 151,
         },
       },
       {
-        geration: 'jhoto',
+        name: 'jhoto',
         quantityPokedex: {
-          start: 152,
-          end: 99,
+          start: 151,
+          end: 251,
         },
       },
       {
-        geration: 'hoenn',
+        name: 'hoenn',
         quantityPokedex: {
-          start: 252,
+          start: 251,
           end: 386,
         },
       },
       {
-        geration: 'sinnoh',
+        name: 'sinnoh',
         quantityPokedex: {
-          start: 387,
+          start: 386,
           end: 493,
         },
       },
       {
-        geration: 'unova',
+        name: 'unova',
         quantityPokedex: {
           start: 494,
           end: 649,
         },
       },
       {
-        geration: 'kalos',
+        name: 'kalos',
         quantityPokedex: {
-          start: 650,
+          start: 649,
           end: 721,
         },
       },
       {
-        geration: 'alola',
+        name: 'alola',
         quantityPokedex: {
-          start: 722,
+          start: 721,
           end: 809,
         },
       },
       {
-        geration: 'galar',
+        name: 'galar',
         quantityPokedex: {
-          start: 810,
+          start: 801,
           end: 898,
         },
       },
     ];
+    this.nameGeration = 'kanto';
     this.gerationStart = 0;
+    this.gerationEnd = 151;
     this.gerationCount = this.setCountGeration();
   }
 
-  async fetchPokeGeration(start, end) {
+  async fetchPokeGeration() {
     this.dataPokedex = [];
 
-    const loading = this.creatorNode.createNode('div', 'loader');
-    this.container.appendChild(loading);
+    if (this.gerationEnd > this.gerationStart) {
+      const loading = this.creatorNode.createNode('div', 'loader');
+      this.container.appendChild(loading);
 
-    const data = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?offset=${this.gerationStart}&limit=${this.gerationCount}`,
-    )
-      .then((data) => data.json())
-      .catch((err) => console.error(err));
+      if (this.gerationStart + this.gerationCount > this.gerationEnd) {
+        const max = this.gerationStart + this.gerationCount - this.gerationEnd;
+        this.gerationCount = this.gerationCount - max;
+      }
 
-    const results = data.results;
-    this.gerationStart += this.gerationCount;
+      const data = await fetch(
+        `https://pokeapi.co/api/v2/pokemon?offset=${this.gerationStart}&limit=${this.gerationCount}`,
+      )
+        .then((data) => data.json())
+        .catch((err) => console.error(err));
 
-    for (const pokemon of results) {
-      const pokemonDetails = await this.fetchPokemonsStatus(pokemon.url);
-      this.dataPokedex.push(pokemonDetails);
+      const results = data.results;
+
+      this.gerationStart += this.gerationCount;
+
+      for (const pokemon of results) {
+        const pokemonDetails = await this.fetchPokemonsStatus(pokemon.url);
+        this.dataPokedex.push(pokemonDetails);
+      }
+
+      this.container.removeChild(document.querySelector('.loader'));
+      this.container.appendChild(
+        this.createPokedex(this.dataPokedex, this.sectionPokedex),
+      );
+
+      return this.dataPokedex;
     }
-
-    this.container.removeChild(document.querySelector('.loader'));
-    this.container.appendChild(
-      this.createPokedex(this.dataPokedex, this.sectionPokedex),
-    );
-
-    return this.dataPokedex;
   }
 
   async fetchPokemonsStatus(url) {
@@ -246,11 +256,10 @@ export default class Pokedex {
 
       content.appendChild(cardPokemon);
     });
-    console.dir(content);
     return content;
   }
 
-  createPokemon(element) {
+  createPokemon(element, scrollTop = 0) {
     const modal = this.creatorNode.createNode('section', 'modal');
     const componentModal = this.creatorNode.createNode('div', 'comp-modal');
     const contentImage = this.creatorNode.createNode('div', 'modal-poke-image');
@@ -265,7 +274,7 @@ export default class Pokedex {
 
     // Arrow button
     const arrow = this.creatorNode.createButton('←', 'modal-arrow');
-    this.modal.closeModal(arrow);
+    this.modal.closeModal(arrow, scrollTop);
 
     contentImage.appendChild(arrow);
 
@@ -377,18 +386,15 @@ export default class Pokedex {
   }
 
   selectPokemon(node, dataPokemon) {
-    node.addEventListener('click', (event) => {
-      console.dir(node);
-      this.createSelectedPokemon(dataPokemon, this.sectionPokedex);
+    node.addEventListener('click', () => {
+      const organism = this.createPokemon(dataPokemon, node.offsetTop);
+
+      this.container.appendChild(organism);
+
+      this.sectionPokedex
+        ? this.creatorNode.toggleClass(this.sectionPokedex)
+        : null;
     });
-  }
-
-  async createSelectedPokemon(pokemon, nodeDisable = null) {
-    const organism = this.createPokemon(pokemon);
-
-    this.container.appendChild(organism);
-
-    nodeDisable ? this.creatorNode.toggleClass(nodeDisable) : null;
   }
 
   getColorElementColor(element) {
@@ -416,8 +422,20 @@ export default class Pokedex {
 
   selectGeration(node) {
     node.addEventListener('change', () => {
-      console.dir(node);
-      console.log(node.value);
+      this.gerations.forEach((geration) => {
+        if (geration.name === node.value) {
+          this.nameGeration = geration.name;
+          this.gerationEnd = geration.quantityPokedex.end;
+          this.gerationStart = geration.quantityPokedex.start;
+
+          this.sectionPokedex.innerHTML = '';
+        }
+      });
+      console.log(this.nameGeration, {
+        start: this.gerationStart,
+        end: this.gerationEnd,
+      });
+      this.fetchPokeGeration();
     });
   }
 }
