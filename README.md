@@ -1,5 +1,9 @@
 # Pokedex
- Pokédex é um dispositivo essencial nos jogos Pokémon, fornecendo informações detalhadas sobre os Pokémon encontrados e auxiliando os jogadores a aprenderem sobre as criaturas do mundo Pokémon.
+ Pokédex é um dispositivo essencial nos jogos Pokémon, fornecendo informações detalhadas sobre os Pokémons encontrados e auxiliando os jogadores a aprenderem sobre as criaturas do mundo Pokémon.
+
+Você pode encontrar o Pokémon que deseja, passando o nome ou o Número da Pokédex do pokémon
+
+É possível gerar todos os pokémons de cada Temporada.
 
 JS vanilla && pokeAPI.
 
